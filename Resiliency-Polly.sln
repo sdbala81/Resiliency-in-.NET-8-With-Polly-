@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApi", "WeatherApi\WeatherApi.csproj", "{EF14B7E4-12D0-44C7-9DFE-D0B3FA77C650}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResilienceApi", "ResilienceApi\ResilienceApi.csproj", "{EC027273-FC7C-412D-BF5C-CC77AA0CE90A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherDepartment.WebApi", "WeatherDepartment.WebApi\WeatherDepartment.WebApi.csproj", "{EC027273-FC7C-412D-BF5C-CC77AA0CE90A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
