@@ -1,0 +1,14 @@
+###
+GET http://localhost:6000/orders/bulkhead
+
+###
+GET http://localhost:6000/orders/circuitbreaker
+
+###
+GET http://localhost:6000/orders/fallback
+
+###
+GET http://localhost:6000/orders/retry
+
+###
+GET http://localhost:6000/orders/timeout

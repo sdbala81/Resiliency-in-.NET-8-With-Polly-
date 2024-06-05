@@ -1,0 +1,14 @@
+﻿###
+GET http://localhost:5000/api/inventory/bulkhead
+
+###
+GET http://localhost:5000/api/inventory/circuitbreaker
+
+###
+GET http://localhost:5000/api/inventory/fallback
+
+###
+GET http://localhost:5000/api/inventory/retry
+
+###
+GET http://localhost:5000/api/inventory/timeout
