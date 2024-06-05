@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,51 +8,55 @@ namespace InventoryService.Controllers;
 [Route("api/[controller]")]
 public class InventoryController : Controller
 {
-    private static int _requestCount;
+    private int _requestCount;
 
-    private readonly Product[] _products =
-    {
-        new()
-        {
-            Id = "1",
-            Name = "Apples",
-            Quantity = 12
-        },
-        new()
-        {
-            Id = "2",
-            Name = "Oranges",
-            Quantity = 25
-        },
-        new()
-        {
-            Id = "3",
-            Name = "Oranges",
-            Quantity = 25
-        }
-    };
 
-    [HttpGet("{productId}")]
-    public async Task<IActionResult> Get(string productId)
+    [HttpGet("retry")]
+    public async Task<IActionResult> Retry()
     {
-        await Task.Delay(1000); // simulate some data processing by delaying for 100 milliseconds 
+        await Task.Delay(1000); // simulate some data processing by delaying for 100 milliseconds
+
         _requestCount++;
-
-        var product = _products.FirstOrDefault(p => p.Id == productId);
 
         return _requestCount % 4 == 0
             ? // only one of out four requests will succeed
-            Ok(product)
+            Ok()
             : StatusCode((int)HttpStatusCode.InternalServerError, "Something went wrong");
     }
 
-    [HttpGet("name/{productName}")]
-    public async Task<IActionResult> GetByName(string productName)
+    [HttpGet("circuitbreaker")]
+    public async Task<IActionResult> CircuitBreaker()
     {
-        await Task.Delay(1000); // simulate some data processing by delaying for 100 milliseconds 
+        // Simulate a circuit breaker scenario
+        // You can replace this with your own logic
+        await Task.Delay(1000);
+        return StatusCode((int)HttpStatusCode.InternalServerError, "Circuit breaker triggered");
+    }
 
-        return StatusCode(
-            (int)HttpStatusCode.InternalServerError,
-            $"Something went wrong when getting prodict by name when getting {productName}");
+    [HttpGet("timeout")]
+    public async Task<IActionResult> Timeout()
+    {
+        // Simulate a timeout scenario
+        // You can replace this with your own logic
+        await Task.Delay(5000);
+        return Ok("Timeout scenario");
+    }
+
+    [HttpGet("bulkhead")]
+    public async Task<IActionResult> Bulkhead()
+    {
+        // Simulate a bulkhead scenario
+        // You can replace this with your own logic
+        await Task.Delay(1000);
+        return Ok("Bulkhead scenario");
+    }
+
+    [HttpGet("fallback")]
+    public async Task<IActionResult> Fallback()
+    {
+        // Simulate a fallback scenario
+        // You can replace this with your own logic
+        await Task.Delay(1000);
+        return Ok("Fallback scenario");
     }
 }

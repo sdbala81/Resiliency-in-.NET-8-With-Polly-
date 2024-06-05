@@ -13,7 +13,8 @@ Log.Logger = new LoggerConfiguration().Enrich.FromLogContext()
 Log.Information("Starting up Inventory Service.....");
 
 builder.Host.UseSerilog(
-    (hostBuilderContext, services, loggerConfiguration) => loggerConfiguration.ReadFrom.Configuration(hostBuilderContext.Configuration)
+    (hostBuilderContext, services, loggerConfiguration) => loggerConfiguration.ReadFrom
+        .Configuration(hostBuilderContext.Configuration)
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
 

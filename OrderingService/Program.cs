@@ -26,9 +26,9 @@ var fallbackPolicy = Policy<HttpResponseMessage>
         Content = new StringContent("Fallback response")
     });
 
-builder.Services.AddHttpClient("WeatherClient", client =>
+builder.Services.AddHttpClient("InventoryClient", client =>
     {
-        client.BaseAddress = new Uri("http://localhost:5000/weather"); // Replace with actual URL
+        client.BaseAddress = new Uri("http://localhost:5000/api/inventory"); // Replace with actual URL
     })
     .AddPolicyHandler(retryPolicy)
     .AddPolicyHandler(circuitBreakerPolicy)

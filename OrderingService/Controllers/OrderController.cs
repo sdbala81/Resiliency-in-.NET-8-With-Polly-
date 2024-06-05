@@ -1,47 +1,85 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// OrderingService/Controllers/WeatherController.cs
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace OrderingService.Controllers;
 
-[Produces("application/json")]
-[Route("api/[controller]s")]
-public class OrderController : Controller
+[ApiController]
+[Route("[controller]s")]
+public class OrderController(IHttpClientFactory httpClientFactory) : ControllerBase
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-
-    public OrderController(IHttpClientFactory httpClientFactory)
+    [HttpGet("retry")]
+    public async Task<IActionResult> TestRetry()
     {
-        _httpClientFactory = httpClientFactory;
-    }
+        var client = httpClientFactory.CreateClient("InventoryClient");
+        var response = await client.GetAsync("retry");
 
-    [HttpGet("{productId}")]
-    public async Task<IActionResult> GetById(string productId)
-    {
-        var httpClient = _httpClientFactory.CreateClient("InventoryService");
-        var httpResponseMessage = await httpClient.GetAsync($"api/inventory/{productId}");
-
-        if (httpResponseMessage.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
-            var product = await httpResponseMessage.Content.ReadFromJsonAsync<Product>();
-
-            return Ok(product);
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(content);
         }
 
-        return StatusCode((int)httpResponseMessage.StatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
+        return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync().Result);
     }
 
-    [HttpGet("name/{productName}")]
-    public async Task<IActionResult> GetByName(string productName)
+    [HttpGet("circuitbreaker")]
+    public async Task<IActionResult> TestCircuitBreaker()
     {
-        var httpClient = _httpClientFactory.CreateClient("InventoryService");
-        var httpResponseMessage = await httpClient.GetAsync($"api/inventory/name/{productName}");
+        var client = httpClientFactory.CreateClient("InventoryClient");
+        var response = await client.GetAsync("circuitbreaker");
 
-        if (httpResponseMessage.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
-            var product = await httpResponseMessage.Content.ReadFromJsonAsync<Product>();
-
-            return Ok(product);
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(content);
         }
 
-        return StatusCode((int)httpResponseMessage.StatusCode, await httpResponseMessage.Content.ReadAsStringAsync());
+        return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync().Result);
+    }
+
+    [HttpGet("timeout")]
+    public async Task<IActionResult> TestTimeout()
+    {
+        var client = httpClientFactory.CreateClient("InventoryClient");
+        var response = await client.GetAsync("timeout");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(content);
+        }
+
+        return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync().Result);
+    }
+
+    [HttpGet("bulkhead")]
+    public async Task<IActionResult> TestBulkhead()
+    {
+        var client = httpClientFactory.CreateClient("InventoryClient");
+        var response = await client.GetAsync("timeout");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(content);
+        }
+
+        return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync().Result);
+    }
+
+    [HttpGet("fallback")]
+    public async Task<IActionResult> TestFallback()
+    {
+        var client = httpClientFactory.CreateClient("InventoryClient");
+        var response = await client.GetAsync("timeout");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var content = await response.Content.ReadAsStringAsync();
+            return Ok(content);
+        }
+
+        return StatusCode((int)response.StatusCode, response.Content.ReadAsStringAsync().Result);
     }
 }
