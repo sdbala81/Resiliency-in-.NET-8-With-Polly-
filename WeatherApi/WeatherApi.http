@@ -2,5 +2,3 @@
 
 GET {{WeatherApi_HostAddress}}/weather
 Accept: application/json
-
-###
