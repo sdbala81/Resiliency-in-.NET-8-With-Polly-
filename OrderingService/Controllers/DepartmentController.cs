@@ -1,8 +1,8 @@
-﻿// WeatherDepartment.WebApi/Controllers/WeatherController.cs
+﻿// OrderingService/Controllers/WeatherController.cs
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace WeatherDepartment.WebApi.Controllers
+namespace OrderingService.Controllers
 {
     [ApiController]
     [Route("[controller]s")]

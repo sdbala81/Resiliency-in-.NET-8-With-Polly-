@@ -1,4 +1,4 @@
-// WeatherDepartment.WebApi/Program.cs
+// OrderingService/Program.cs
 
 using System.Net;
 using Polly;
